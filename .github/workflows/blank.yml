@@ -1,6 +1,6 @@
 name: Update Open Issues
 
-# 触发条件：新issue被创建时
+# 触发条件：新 issue 被创建时
 on:
   issues:
     types: [opened]
@@ -14,27 +14,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js for using GitHub CLI
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      # Step 3: Install GitHub CLI
-      - name: Install GitHub CLI
-        run: sudo apt-get install gh -y
-
-      # Step 4: Generate the markdown file with open issues
-      - name: Generate open issues report
+      # Step 2: Call GitHub API to get open issues
+      - name: Fetch open issues
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 设置 GitHub 令牌
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 设置 GitHub Token
         run: |
-          # 确保使用 `GH_TOKEN`
+          # 调用 GitHub API 获取未关闭的 issues，并写入 open_issues.md
           echo "# Open Issues" > open_issues.md
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"  # 登录 GitHub CLI
-          gh issue list --state open --json number,title,author,body --jq '.[] | "## Issue #\(.number)\n**Title**: \(.title)\n**Author**: \(.author.login)\n**Content**: \(.body)\n\n"' >> open_issues.md
+          curl -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues?state=open \
+            | jq -r '.[] | "## Issue #\(.number)\n**Title**: \(.title)\n**Author**: \(.user.login)\n**Content**: \(.body)\n\n"' >> open_issues.md
 
-      # Step 5: Commit and push the markdown file
+      # Step 3: Commit the markdown file
       - name: Commit and push changes
         run: |
           git config --local user.email "actions@github.com"
