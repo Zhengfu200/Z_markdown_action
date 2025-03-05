@@ -26,6 +26,8 @@ jobs:
 
       # Step 4: Generate the markdown file with open issues
       - name: Generate open issues report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 设置 GitHub 令牌
         run: |
           # 获取未关闭的 issues
           echo "# Open Issues" > open_issues.md
