@@ -29,11 +29,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 设置 GitHub 令牌
         run: |
-          # 获取未关闭的 issues
+          # 确保使用 `GH_TOKEN`
           echo "# Open Issues" > open_issues.md
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"  # 登录 GitHub CLI
           gh issue list --state open --json number,title,author,body --jq '.[] | "## Issue #\(.number)\n**Title**: \(.title)\n**Author**: \(.author.login)\n**Content**: \(.body)\n\n"' >> open_issues.md
 
-      # Step 5: Commit the markdown file
+      # Step 5: Commit and push the markdown file
       - name: Commit and push changes
         run: |
           git config --local user.email "actions@github.com"
