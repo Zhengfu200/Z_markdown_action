@@ -37,11 +37,9 @@ jobs:
           echo "" >> README.md
           jq -r '
             .[] |
-            "* [Comment-\(.number):](\(.html_url))    "
+            "[**\(.user.login)**](\(.user.html_url))    "
             + "\n"
             + "Title: **\(.title)**    "
-            + "\n"
-            + "By: [**\(.user.login)**](\(.user.html_url))    "
             + "\n"
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
