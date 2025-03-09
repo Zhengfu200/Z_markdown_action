@@ -1,0 +1,38 @@
+name: Update Issues Report
+
+on:
+  schedule:
+    - cron: '0 * * * *' # 每小时运行一次
+  workflow_dispatch: # 手动触发
+  issues:
+    types: [opened, edited, closed]
+
+jobs:
+  update-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch all open issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} # 使用 GitHub Secret 中的 token
+        run: |
+          curl -H "Authorization: token ${{ secrets.MY_GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/issues?state=open \
+               > issues.json
+
+      - name: Generate markdown file
+        run: |
+          echo "# Open Issues Report" > issues_report.md
+          echo "" >> issues_report.md
+          jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body)\n```"' issues.json >> issues_report.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add issues_report.md
+          git commit -m "Updated issues report"
+          git push
