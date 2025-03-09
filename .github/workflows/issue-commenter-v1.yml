@@ -38,13 +38,12 @@ jobs:
           jq -r '
             .[] |
             "* [Comment-\(.number):](\(.html_url))"
-            + "\n\n"
             + "Title: **\(.title)**"
-            + "\n\n"
             + "By: [**\(.user.login)**](\(.user.html_url))"
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
-            + "\n```"                                                               
+            + "\n```"             
+            + ---   
           ' issues.json >> README.md
 
 
