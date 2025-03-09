@@ -37,16 +37,14 @@ jobs:
           echo "" >> issues_report.md
           jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body // "No description provided")\n```"' issues.json >> issues_report.md
 
-      - name: Check if markdown file has changed
-        id: check_diff
+      - name: Check if markdown file has changed and commit if needed
         run: |
-          git diff --exit-code issues_report.md || echo "File changed" > .changed
-          
-      - name: Commit changes if file has changed
-        if: steps.check_diff.outputs.changed == 'true'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add issues_report.md
-          git commit -m "Updated issues report"
-          git push
+          if git diff --exit-code issues_report.md; then
+            echo "No changes detected, skipping commit."
+          else
+            echo "Changes detected, committing."
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add issues_report.md
+            git commit -m "Updated issues report"
+            git push
