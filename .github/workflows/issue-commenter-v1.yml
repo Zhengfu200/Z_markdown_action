@@ -42,6 +42,7 @@ jobs:
             + "Title: **\(.title)**    "
             + "\n"
             + "By: [**\(.user.login)**](\(.user.html_url))    "
+            + "\n"
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
             + "\n```"             
