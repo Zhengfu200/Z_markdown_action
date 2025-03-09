@@ -37,7 +37,7 @@ jobs:
           echo "" >> README.md
           jq -r '
             .[] |
-            "<img src="\(.user.avatar_url)" alt="Avatar" width="20" height="20">&nbsp;"
+            '<img src="\(.user.avatar_url)" alt="Avatar" width="20" height="20">&nbsp;'
             +"|[**\(.user.login)**](\(.user.html_url))    "
             + "\n"
             + "Title: **\(.title)**    "
