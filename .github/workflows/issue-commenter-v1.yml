@@ -20,7 +20,7 @@ jobs:
 
       - name: Fetch all open issues
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Actions 自动生成的 token
         run: |
           curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
@@ -38,11 +38,12 @@ jobs:
           jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body // "No description provided")\n```"' issues.json >> issues_report.md
 
       - name: Check if markdown file has changed
+        id: check_diff
         run: |
-          git diff --quiet issues_report.md || echo "File changed" > .changed
+          git diff --exit-code issues_report.md || echo "File changed" > .changed
           
       - name: Commit changes if file has changed
-        if: exists('.changed')
+        if: steps.check_diff.outputs.changed == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
