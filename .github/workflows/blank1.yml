@@ -7,6 +7,9 @@ on:
   issues:
     types: [opened, edited, closed]
 
+permissions:
+  issues: read  # 确保有权限读取 issues
+
 jobs:
   update-issues:
     runs-on: ubuntu-latest
