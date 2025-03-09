@@ -48,3 +48,4 @@ jobs:
             git add issues_report.md
             git commit -m "Updated issues report"
             git push
+          fi
