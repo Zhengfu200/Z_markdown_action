@@ -8,6 +8,7 @@ on:
     types: [opened, edited, closed]
 
 permissions:
+  contents: write
   issues: read  # 确保有权限读取 issues
 
 jobs:
