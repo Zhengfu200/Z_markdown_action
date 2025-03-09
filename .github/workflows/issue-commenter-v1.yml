@@ -37,13 +37,15 @@ jobs:
           echo "" >> README.md
           jq -r '
             .[] |
-            "* [Comment-\(.number):](\(.html_url))"
-            + "Title: **\(.title)**"
-            + "By: [**\(.user.login)**](\(.user.html_url))"
+            +"* [Comment-\(.number):](\(.html_url))    "
+            + "\n"
+            + "Title: **\(.title)**    "
+            + "\n"
+            + "By: [**\(.user.login)**](\(.user.html_url))    "
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
             + "\n```"             
-            + "---"   
+            + "\n---"   
           ' issues.json >> README.md
 
 
