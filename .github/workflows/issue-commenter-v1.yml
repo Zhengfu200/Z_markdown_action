@@ -37,11 +37,14 @@ jobs:
           echo "" >> README.md
           jq -r '
             .[] |
-            "* [Comment-\(.number)](\(.html_url)): **\(.user.login)** - **\(.title)**"   # 生成 Markdown 链接，显示 issue 编号和链接
-            + "\n\n"                                                                # 添加换行符
-            + "```markdown\n"                                                       # 开始 Markdown 代码块
-            + (.body // "No description provided")                                  # 显示 issue 描述或默认文本
-            + "\n```"                                                               # 结束 Markdown 代码块
+            "* [Comment-\(.number):](\(.html_url))"
+            + "\n\n"
+            + "Title: **\(.title)**"
+            + "\n\n"
+            + "By: [**\(.user.login)**](\(.user.html_url))"
+            + "```markdown\n"                                                       
+            + (.body // "No description provided")                                  
+            + "\n```"                                                               
           ' issues.json >> README.md
 
 
