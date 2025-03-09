@@ -37,7 +37,7 @@ jobs:
           echo "" >> issues_report.md
           jq -r '
             .[] |
-            "* [Comment-\(.number):](\(.html_url)): **\(.user.login)** - **\(.title)**"   # 生成 Markdown 链接，显示 issue 编号和链接
+            "* [Comment-\(.number)](\(.html_url)): **\(.user.login)** - **\(.title)**"   # 生成 Markdown 链接，显示 issue 编号和链接
             + "\n\n"                                                                # 添加换行符
             + "```markdown\n"                                                       # 开始 Markdown 代码块
             + (.body // "No description provided")                                  # 显示 issue 描述或默认文本
