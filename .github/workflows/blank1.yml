@@ -23,11 +23,18 @@ jobs:
                https://api.github.com/repos/${{ github.repository }}/issues?state=open \
                > issues.json
 
+               
+      - name: Print issues.json
+        run: |
+          cat issues.json
+
+          
       - name: Generate markdown file
         run: |
           echo "# Open Issues Report" > issues_report.md
           echo "" >> issues_report.md
-          jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body)\n```"' issues.json >> issues_report.md
+          jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body // "No description provided")\n```"' issues.json >> issues_report.md
+
 
       - name: Commit changes
         run: |
