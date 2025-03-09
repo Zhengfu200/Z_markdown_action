@@ -36,13 +36,12 @@ jobs:
           echo "# Open Issues Report" > issues_report.md
           echo "" >> issues_report.md
           jq -r '
-            .[] | 
-            "* [评论 #\(.number)](\(.html_url)):"  
-            + " **\(.user.login)** - \(.title)"    
-            + "\n\n"                               
-            + "```markdown\n"                      
-            + (.body // \"No description provided\")
-            + "\n```"                              
+            .[] |
+            "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)"   # 生成 Markdown 链接，显示 issue 编号和链接
+            + "\n\n"                                                                # 添加换行符
+            + "```markdown\n"                                                       # 开始 Markdown 代码块
+            + (.body // "No description provided")                                  # 显示 issue 描述或默认文本
+            + "\n```"                                                               # 结束 Markdown 代码块
           ' issues.json >> issues_report.md
 
 
