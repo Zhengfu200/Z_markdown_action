@@ -35,7 +35,16 @@ jobs:
         run: |
           echo "# Open Issues Report" > issues_report.md
           echo "" >> issues_report.md
-          jq -r '.[] | "* [Issue #\(.number)](\(.html_url)): **\(.user.login)** - \(.title)\n\n```markdown\n\(.body // "No description provided")\n```"' issues.json >> issues_report.md
+          jq -r '
+            .[] | 
+            "* [评论 #\(.number)](\(.html_url)):"  
+            + " **\(.user.login)** - \(.title)"    
+            + "\n\n"                               
+            + "```markdown\n"                      
+            + "\(.body // \"No description provided\")"  
+            + "\n```"                              
+            ' issues.json >> issues_report.md
+
 
       - name: Check if markdown file has changed and commit if needed
         run: |
