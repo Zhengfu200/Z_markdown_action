@@ -37,7 +37,7 @@ jobs:
           echo "" >> README.md
           jq -r '
             .[] |
-            +"* [Comment-\(.number):](\(.html_url))    "
+            "* [Comment-\(.number):](\(.html_url))    "
             + "\n"
             + "Title: **\(.title)**    "
             + "\n"
