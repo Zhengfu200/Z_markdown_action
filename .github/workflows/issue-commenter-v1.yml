@@ -43,7 +43,7 @@ jobs:
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
             + "\n```"             
-            + ---   
+            + "---"   
           ' issues.json >> README.md
 
 
