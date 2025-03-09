@@ -33,8 +33,8 @@ jobs:
           
       - name: Generate markdown file
         run: |
-          echo "# Open Issues Report" > issues_report.md
-          echo "" >> issues_report.md
+          echo "# Comment" > README.md
+          echo "" >> README.md
           jq -r '
             .[] |
             "* [Comment-\(.number)](\(.html_url)): **\(.user.login)** - **\(.title)**"   # 生成 Markdown 链接，显示 issue 编号和链接
@@ -42,18 +42,18 @@ jobs:
             + "```markdown\n"                                                       # 开始 Markdown 代码块
             + (.body // "No description provided")                                  # 显示 issue 描述或默认文本
             + "\n```"                                                               # 结束 Markdown 代码块
-          ' issues.json >> issues_report.md
+          ' issues.json >> README.md
 
 
       - name: Check if markdown file has changed and commit if needed
         run: |
-          if git diff --exit-code issues_report.md; then
+          if git diff --exit-code README.md; then
             echo "No changes detected, skipping commit."
           else
             echo "Changes detected, committing."
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add issues_report.md
-            git commit -m "Updated issues report"
+            git add README.md
+            git commit -m "Updated Comment"
             git push
           fi
