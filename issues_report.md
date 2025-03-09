@@ -1,6 +1,6 @@
 # Open Issues Report
 
-* [评论 #4](https://github.com/Zhengfu200/test_repo/issues/4): **Zhengfu200** - test2
+* [Comment-#4:test2](https://github.com/Zhengfu200/test_repo/issues/4): **Zhengfu200** - test2
 
 ```markdown
 test2
