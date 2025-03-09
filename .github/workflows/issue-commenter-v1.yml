@@ -41,7 +41,7 @@ jobs:
             + " **\(.user.login)** - \(.title)"    
             + "\n\n"                               
             + "```markdown\n"                      
-            + "\(.body // \"No description provided\")"  
+            + (.body // \"No description provided\")
             + "\n```"                              
           ' issues.json >> issues_report.md
 
