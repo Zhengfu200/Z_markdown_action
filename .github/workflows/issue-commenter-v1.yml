@@ -43,7 +43,7 @@ jobs:
             + "```markdown\n"                      
             + "\(.body // \"No description provided\")"  
             + "\n```"                              
-            ' issues.json >> issues_report.md
+          ' issues.json >> issues_report.md
 
 
       - name: Check if markdown file has changed and commit if needed
