@@ -45,7 +45,7 @@ jobs:
             + "```markdown\n"                                                       
             + (.body // "No description provided")                                  
             + "\n```"             
-            + "\nReactions: 👍 \(.reactions["+1"]) 👎 \(.reactions["-1"]) 😄 \(.reactions["laugh"]) 🎉 \(.reactions["hooray"]) 😕 \(.reactions["confused"]) 💖 \(.reactions["heart"]) 🚀 \(.reactions["rocket"]) 👀 \(.reactions["eyes"])" 
+            + '\nReactions: 👍 \(.reactions["+1"]) 👎 \(.reactions["-1"]) 😄 \(.reactions["laugh"]) 🎉 \(.reactions["hooray"]) 😕 \(.reactions["confused"]) 💖 \(.reactions["heart"]) 🚀 \(.reactions["rocket"]) 👀 \(.reactions["eyes"])' 
             + "\n---"   
           ' issues.json >> README.md
       - name: Check if markdown file has changed and commit if needed
