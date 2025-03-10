@@ -36,8 +36,9 @@ jobs:
           echo "# Comment" > README.md
           echo "" >> README.md
           jq -r '
-            .[] |
-            "[**\(.user.login)**](\(.user.html_url))    "
+            .[] 
+            | select(.labels | map(.name) | index("Comment") != null)  # 只选择带有 Comment 标签的 issue
+            | "[**\(.user.login)**](\(.user.html_url))    "
             + "\n"
             + "Title: **\(.title)**    "
             + "\n"
