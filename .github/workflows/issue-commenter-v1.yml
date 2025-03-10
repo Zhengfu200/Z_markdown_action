@@ -36,17 +36,11 @@ jobs:
           echo "# Comment" > README.md
           echo "" >> README.md
           jq -r '
-            .[] 
-            | select(.labels | map(.name) | index("Comment") != null)  # 只选择带有 Comment 标签的 issue
-            | ### "[**\(.user.login)**](\(.user.html_url))    "
-            + "\n"
-            + "Title: **\(.title)**    "
-            + "\n"
-            + "```markdown\n"                                                       
-            + (.body // "No description provided")                                  
-            + "\n```" 
-            + "\n---"   
-          ' issues.json >> README.md
+              .[] 
+              | select(.labels | map(.name) | index("Comment") != null) 
+              | "### [**\(.user.login)**](\(.user.html_url))\nTitle: **\(.title)**\n```markdown\n\(.body // "No description provided")\n```\n---"
+            ' issues.json >> README.md
+
       - name: Check if markdown file has changed and commit if needed
         run: |
           if git diff --exit-code README.md; then
