@@ -40,7 +40,7 @@ jobs:
             | select(.labels | map(.name) | index("Comment") != null) 
             | "### [**\(.user.login)**](\(.user.html_url))" 
               + "\n"
-              + "- Title: **\(.title)**" 
+              + "- Title: **\(.title)**" + "    "
               + "\n"                                                    
               + "  " + (.body // "No description provided")                                  
               + "\n"
