@@ -40,13 +40,11 @@ jobs:
             | select(.labels | map(.name) | index("Comment") != null) 
             | "### [**\(.user.login)**](\(.user.html_url))" 
               + "\n"
-              + "Title: **\(.title)**" 
+              + "- Title: **\(.title)**" 
+              + "\n"                                                    
+              + "  " + (.body // "No description provided")                                  
               + "\n"
-              + "```markdown\n"                                                       
-              + (.body // "No description provided")                                  
-              + "\n```" 
-              + "\n"
-              + "Reactions: 👍 \(.reactions["+1"]) 👎 \(.reactions["-1"]) 😄 \(.reactions["laugh"]) 🎉 \(.reactions["hooray"]) 😕 \(.reactions["confused"]) 💖 \(.reactions["heart"]) 🚀 \(.reactions["rocket"]) 👀 \(.reactions["eyes"])\n" 
+              + "- Reactions: 👍 \(.reactions["+1"]) 👎 \(.reactions["-1"]) 😄 \(.reactions["laugh"]) 🎉 \(.reactions["hooray"]) 😕 \(.reactions["confused"]) 💖 \(.reactions["heart"]) 🚀 \(.reactions["rocket"]) 👀 \(.reactions["eyes"])\n" 
               + "\n---"
           ' issues.json >> README.md
 
