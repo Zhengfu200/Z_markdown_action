@@ -41,7 +41,9 @@ jobs:
             | "### [**\(.user.login)**](\(.user.html_url))" 
               + "\n"
               + "- Title: **\(.title)**" + "    "
-              + "\n"                                                    
+              + "\n"        
+              + "- Comment:" + "    "
+              + "\n"
               + "  " + (.body // "No description provided")                                  
               + "\n"
               + "- Reactions: 👍 \(.reactions["+1"]) 👎 \(.reactions["-1"]) 😄 \(.reactions["laugh"]) 🎉 \(.reactions["hooray"]) 😕 \(.reactions["confused"]) 💖 \(.reactions["heart"]) 🚀 \(.reactions["rocket"]) 👀 \(.reactions["eyes"])\n" 
